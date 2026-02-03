@@ -1,40 +1,13 @@
-'use client';
+import FlightBookingModal from '@/components/flight-booking-modal';
 
-import { useUIState, useActions } from 'ai/rsc';
-import { AI } from './ai';
-import { useState } from 'react';
-
-export default function Page() {
-  const [inputValue, setInputValue] = useState('');
-  const { messages, sendMessage } = useActions<typeof AI>();
-  const [conversation, setConversation] = useUIState<typeof AI>();
-
+export default function Home() {
   return (
-    <div>
-      <div>
-        {conversation.map(message => (
-          <div key={message.id}>{message.display}</div>
-        ))}
+    <main className="flex min-h-screen items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100 p-4">
+      <div className="text-center">
+        <h1 className="mb-4 text-4xl font-bold text-gray-800">Travel Booking Platform</h1>
+        <p className="mb-8 text-gray-600">Book your next flight with our AI-powered assistant</p>
+        <FlightBookingModal />
       </div>
-
-      <form
-        onSubmit={async e => {
-          e.preventDefault();
-          setConversation(currentConversation => [
-            ...currentConversation,
-            { id: 'user-message', display: <div>{inputValue}</div> },
-          ]);
-          const message = await sendMessage(inputValue);
-          setConversation(currentConversation => [...currentConversation, message]);
-          setInputValue('');
-        }}
-      >
-        <input
-          placeholder="Send a message..."
-          value={inputValue}
-          onChange={e => setInputValue(e.target.value)}
-        />
-      </form>
-    </div>
+    </main>
   );
 }
